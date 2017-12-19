@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Vantiv Test</title>
+   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<body>
+   <div id='guid'></div>
+   <iframe id='iframe'
+           height="550"
+           width="550"
+           scrolling="auto"
+           frameborder="0"
+           style="text-align: center;">
+      Your browser does not support iFrames. To view this content, please download and use the latest version of one of the following
+      browsers: Internet Explorer, Firefox, Google Chrome or Safari.
+   </iframe>
+
+   <script type="text/javascript">
+      document.getElementById('guid').innerHTML = Math.random().toString()
+
+      const returnUrl = 'https://requestb.in/14in2wl1'
+      const xhttp = new XMLHttpRequest()
+      xhttp.onreadystatechange = function () {
+         if (xhttp.readyState === 4 && xhttp.status === 200) {
+            const transactionID = xhttp.responseXML.getElementsByTagName('TransactionSetupID')[0].childNodes[0].nodeValue
+            document.getElementById('iframe').src = 'https://certtransaction.hostedpayments.com/?TransactionSetupID=' + transactionID
+         }
+      }
+
+      xhttp.open('POST', 'https://certtransaction.elementexpress.com', true)
+      xhttp.setRequestHeader('Content-Type', 'text/xml')
+      xhttp.send(`
+      <TransactionSetup xmlns='https://transaction.elementexpress.com'>
+         <Credentials>
+            <AccountID>1050369</AccountID>
+            <AccountToken>EAFB529AFFD035983AE2D6B896F1781F3D4A3499C6E163EBB7EFFD5EC921B1BC9F67A101</AccountToken>
+            <AcceptorID>3928907</AcceptorID>
+         </Credentials>
+         <Application>
+            <ApplicationID>8765</ApplicationID>
+            <ApplicationName>Test</ApplicationName>
+            <ApplicationVersion>1.0</ApplicationVersion>
+         </Application>
+         <Transaction>
+            <ReferenceNumber>123</ReferenceNumber>
+            <TicketNumber>1234</TicketNumber>
+         </Transaction>
+         <Terminal>
+            <TerminalID>5</TerminalID>
+            <TerminalEnvironmentCode>2</TerminalEnvironmentCode>
+            <CardholderPresentCode>3</CardholderPresentCode>
+            <CardInputCode>4</CardInputCode>
+            <CardPresentCode>2</CardPresentCode>
+            <TerminalCapabilityCode>5</TerminalCapabilityCode>
+            <CVVPresenceCode>2</CVVPresenceCode>
+         </Terminal>
+         <PaymentAccount>
+            <PaymentAccountType>0</PaymentAccountType>
+            <PaymentAccountReferenceNumber>12345</PaymentAccountReferenceNumber>
+         </PaymentAccount>
+         <TransactionSetup>
+            <TransactionSetupMethod>7</TransactionSetupMethod>
+            <Embedded>1</Embedded>
+            <CompanyName>Unlimited Systems</CompanyName>
+            <LogoURL>https://cdn.frontify.com/api/screen/thumbnail/GIMRZK0dNcoHA_gTm1dlOSCE1JZz5Me3rYbQWm07H8EVJiYNVOfKtE__I2JG0AKWhxgi4PEzmIlacQuZq5JX1Q/1583</LogoURL>
+            <AutoReturn>1</AutoReturn>
+            <CVVRequired>1</CVVRequired>
+            <ReturnURL>` + returnUrl + `</ReturnURL>
+            <ProcessTransactionTitle>Save Payment Method</ProcessTransactionTitle>
+            <DeviceInputCode>3</DeviceInputCode>
+            <CustomCss>
+               body {
+                  border: none;
+                  font-family: Open Sans !important;
+                  font-size: 15px !important;
+               }
+               input {
+                  font-family: Open Sans !important;
+                  font-size: 15px !important;
+               }
+               .required {
+                  display: none;
+               }
+               .tdHeader {
+                  display: none;
+               }
+               .tdLabel {
+                  font-weight: normal;
+               }
+               .cardNumber {
+                  border-left: none;
+                  border-top: none;
+                  border-right: none;
+                  border-bottom: 1px solid #979797;
+               }
+               .content {
+                  border: none;
+               }
+               .tdTransactionButtons {
+                  border: none;
+               }
+               .buttonCancel {
+                  display: none;
+               }
+               .buttonEmbedded {
+                  background-color: #1b75bb !important;
+                  border-radius: 2px;
+                  box-shadow: 0 2px 2px 0 rgba(0,0,0,.17);
+               }
+            </CustomCss>
+         </TransactionSetup>
+      </TransactionSetup>`)
+   </script>
+</body>
+
+</html>
